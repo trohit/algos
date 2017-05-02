@@ -17,6 +17,6 @@ int main()
         int num;
         printf("Enter a num: ");
         scanf("%u", &num);
-        printf("bits set: %u\", countbits(num));
+        printf("bits set: %u\n", countbits(num));
         return 0;
 }
