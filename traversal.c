@@ -125,3 +125,87 @@ void printLevel_pretty(node *head, unsigned int lvl, unsigned int origlvl)
         printLevel_pretty(head->left, lvl - 1, origlvl);
         printLevel_pretty(head->right, lvl - 1, origlvl);
 }
+{
+        int h = height(head);
+        int i;
+        for (i = 0;i <= h; i++) {
+                printLevel(head, i);
+                printf("\n");
+        }
+        return;
+}
+
+void dfs(node *head)
+{
+        node *tmp = head;
+        void* arr[100];
+        int arrlen = 0;
+        if  (head == NULL) {
+                return;
+        }
+        while (tmp) {
+                printf("%u ", tmp->info);
+                if (tmp->right) {
+                        // make a note to visit this later
+                        arr[arrlen++] = (void*) tmp->right;
+                }
+                tmp = tmp->left;
+        }
+        //printf(" parse any todos on the right\n");
+        //printf(" arrlen(%u)\n", arrlen);
+        while (arrlen) {
+                dfs((node*) arr[arrlen-1]);
+                arrlen--;
+        }
+}
+
+int size(node *head)
+{
+        int left = 0;
+        int right = 0;
+        if (head == NULL) {
+                return 0;
+        }
+        if (head->right == NULL && head->left == NULL) {
+                return 1;
+        }
+        left = size(head->left);
+        right = size(head->right);
+        return left + right + 1;
+}
+
+/*
+ *
+ *            100
+ *          /     \
+ *        50      200
+ *       /  \       \
+ *     30    70     300
+ *          /
+ *        60
+ *
+ */
+int main()
+{
+        head = insert(head, 100);
+        head = insert(head, 200);
+        head = insert(head, 300);
+        head = insert(head, 50);
+        head = insert(head, 70);
+        head = insert(head, 30);
+        head = insert(head, 60);
+        //preorder(head);
+        //printf("\n");
+        inorder(head);
+        //printf("\n");
+        //postorder(head);
+        //printf("height :%u\n", height(head));
+        printf("height :%u\n", height(head));
+        bfs_pretty(head);
+        //bfs(head);
+        dfs(head);
+        printf("size:%u\n", size(head));
+        return 0;
+}
+
+
