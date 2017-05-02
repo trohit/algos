@@ -135,6 +135,9 @@ void printLevel_pretty(node *head, unsigned int lvl, unsigned int origlvl)
         return;
 }
 
+/*
+ * Preorder, inOrder and postorder tree traversals are types DFS traversals.
+ */
 void dfs(node *head)
 {
         node *tmp = head;
