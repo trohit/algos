@@ -125,11 +125,27 @@ void printLevel_pretty(node *head, unsigned int lvl, unsigned int origlvl)
         printLevel_pretty(head->left, lvl - 1, origlvl);
         printLevel_pretty(head->right, lvl - 1, origlvl);
 }
+void print_level(node *head, unsigned int lvl)
+{
+        int j;
+        int buffer = 0;
+        int isfirst = 1;
+        if (head == NULL) {
+                return;
+        }
+        if (lvl == 1) {
+                printf("[%u]", head->info);
+        }
+        print_level(head->left, lvl - 1);
+        print_level(head->right, lvl - 1);
+
+}
+void bfs(node *head)
 {
         int h = height(head);
         int i;
         for (i = 0;i <= h; i++) {
-                printLevel(head, i);
+                print_level(head, i);
                 printf("\n");
         }
         return;
@@ -147,7 +163,7 @@ void dfs(node *head)
                 return;
         }
         while (tmp) {
-                printf("%u ", tmp->info);
+                printf("[%u] ", tmp->info);
                 if (tmp->right) {
                         // make a note to visit this later
                         arr[arrlen++] = (void*) tmp->right;
@@ -204,7 +220,7 @@ int main()
         //postorder(head);
         //printf("height :%u\n", height(head));
         printf("height :%u\n", height(head));
-        bfs_pretty(head);
+        bfs(head);
         //bfs(head);
         dfs(head);
         printf("size:%u\n", size(head));
