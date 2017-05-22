@@ -16,11 +16,24 @@ int is_empty(node *list)
 	}
 	return false;
 }
-void disp_list(node *list) 
+node* new_node(int key)
+{
+
+	node *bogey = malloc(sizeof(node));
+	if (!bogey) {
+		// TODO: add error handling code here
+		return NULL;
+	}
+	bogey->info = key;
+	bogey->next = NULL;
+	return bogey;
+}
+void disp_list(node *list)
 {
 	if (list == NULL) return;
 	node *tmp;
 	tmp = list;
+        printf("\n");
 	while (tmp) {
 		printf("[%u]", tmp->info);
 		if (tmp->next) {
@@ -68,4 +81,106 @@ node* insert_list_stack(node *head, int i)
 	}
 	return head;
 }
+/*
+ * detects if there is a loop in the linklist.
+ * @params:
+ * 	start of the linklist.
+ * @return:
+ * 	first node from where the loop starts if it exists
+ * 	NULL if there is no loop.
+ */
+node* detect_loop(node *head)
+{
+	node *slow = head;
+	node *fast = NULL;
+	if (head == NULL || head->next == NULL) {
+	       return NULL;
+	}
+	fast = slow->next;
+	while (fast != NULL) {
+		/*
+		 * we want the node before the start of the loop.
+		 */
+		if (slow->next == fast) {
+			printf("Found a loop at [%u]", slow->info);
+			return slow;
+		}
+		slow = slow->next;
+		fast = slow->next;
+	}
+        return NULL;
+}
+node* insert_loop_node(node *head, node *rogue)
+{
+	node *iter = head;
+	if (!iter) return NULL;
+	while (iter->next) iter = iter->next;
+
+	iter->next = rogue;
+	rogue->next = head->next;
+	return head;
+}
+void swap(node *a, node *b)
+{
+    int t;
+    t = a->info;
+    a->info = b->info;
+    b->info = t;
+}
+
+/*
+ * Fetches node at offset specified, starting from 0.
+ * returns NULL if offset is invalid.
+ */ 
+node* get_elm_at(node *head, int pos)
+{
+    node *tmp = head;
+    uint offset = 0;
+    while (offset != pos) {
+        if (tmp == NULL) return NULL;
+        tmp = tmp->next;
+        offset++;
+    }
+    return tmp;
+}
+
+int count(node *head)
+{
+    node *tmp = head;
+    int count = 0;
+    if (tmp == NULL)
+        return count;
+    else 
+        count++;
+    while (tmp->next) {
+        //printf("%u ", tmp->data);
+        tmp = tmp->next;
+        count++;
+    }
+    return count;
+}
+
+void sort_list(node *head)
+{
+    int len = count(head);
+    node *t = head;
+    for (int i = 0; i < len; i++) {
+        t = head;
+        for (int j = 0; j < len - 1; j++) {
+            if (t && t->next) {
+                printf("\nComparing %u<>%u:", t->info, t->next->info);
+                if (t->info > t->next->info) {
+                    printf("SWAPPED");
+                    swap(t, t->next);
+                }
+                t = t->next;
+            }
+        }
+        disp_list(head);
+    }
+}
+
+
+
+
 #endif /* __LINKLIST_H__ */
