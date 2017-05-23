@@ -147,17 +147,17 @@ node* get_elm_at(node *head, int pos)
 int count(node *head)
 {
     node *tmp = head;
-    int count = 0;
+    int len = 0;
     if (tmp == NULL)
-        return count;
+        return len;
     else 
-        count++;
+        len++;
     while (tmp->next) {
         //printf("%u ", tmp->data);
         tmp = tmp->next;
-        count++;
+        len++;
     }
-    return count;
+    return len;
 }
 
 void sort_list(node *head)
@@ -180,7 +180,32 @@ void sort_list(node *head)
     }
 }
 
+bool is_linklist_palindrome(node *head)
+{
+    node *rev = head;
+    node *dup = NULL;
+    int pos = 0;
+    if (rev == NULL)
+        return true;
+    int len = count(head);
+    while (pos != len/2) {
+        dup = insert_list_stack(dup, rev->info);
+        rev = rev->next;
+        pos++;
+    }
+    if (len%2) {
+        rev = rev->next;
+    } 
+    //compare both lists
+    while (dup && rev) {
+        if (dup->info != rev->info) {
+            return false;
+        }
+        dup = dup->next;
+        rev = rev->next;
+    }
+    return true;
 
-
+}
 
 #endif /* __LINKLIST_H__ */

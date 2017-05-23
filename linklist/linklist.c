@@ -26,6 +26,15 @@ int main()
 	disp_list(head);
         sort_list(head);
 	disp_list(head);
+        head = NULL;
+
+	head = insert_list_stack(head, 10);
+	head = insert_list_stack(head, 20);
+	head = insert_list_stack(head, 30);
+	head = insert_list_stack(head, 20);
+	head = insert_list_stack(head, 10);
+	
+        printf("is_palin:%u",is_linklist_palindrome(head)); 
 
 	return 0;
 }
