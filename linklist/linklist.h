@@ -207,5 +207,34 @@ bool is_linklist_palindrome(node *head)
     return true;
 
 }
+void recursiveReverse(node** hr)
+{
+    node* first;
+    node* rest;
+    //printf("\n winding");
 
+    if (*hr == NULL) {
+        //printf("unwinding from last");
+        return;
+    }
+
+    first = *hr;
+    rest = first->next;
+
+    if (rest == NULL) {
+        //printf("unwinding from 2nd last");
+        return;
+    }
+
+    recursiveReverse(&rest);
+    /* reverse the rest list and put the first element at the end */
+    first->next->next = first;
+
+    /* tricky step -- see the diagram */
+    first->next = NULL;
+
+    /* fix the head pointer */
+    *hr = rest;
+    //printf("\n Unwinding");
+}
 #endif /* __LINKLIST_H__ */
